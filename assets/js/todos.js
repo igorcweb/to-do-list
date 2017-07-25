@@ -1,5 +1,5 @@
 //Check Off Specidic Todos by Clicking
-$('ul').on('click', 'li', () => {
+$('ul').on('click', 'li', function(){
   $(this).toggleClass('completed');
 });
 
