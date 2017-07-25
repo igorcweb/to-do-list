@@ -1,19 +1,23 @@
 //Check Off Specidic Todos by Clicking
-$('ul').on('click', 'li', function(){
+$('ul').on('click', 'li', function () {
   $(this).toggleClass('completed');
 });
 
 //Click on X to delete todo
-$('ul').on('click', 'span', function(event) {
+$('ul').on('click', 'span', function (event) {
   event.stopPropagation();
   $(this).parent().fadeOut(500, () => {
     $(this).remove();
   });
 });
 //Add new todo
-$("input[type='text']").keypress(function(event){
+  //Sanitize Input
+function htmlEntities(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+$("input[type='text']").keypress(function (event) {
   if (event.which === 13) {
-    let todoText = $(this).val();
+    let todoText = htmlEntities($(this).val());
     if (todoText) {
       $('ul').append(`<li><span><i class="fa fa-trash"></i></span> ${todoText}</li>`);
       $(this).val('');
