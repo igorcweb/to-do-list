@@ -1,3 +1,14 @@
+var $todos = $("#todos"),
+     $todo = $("#todo");
+
+function addTodo(todo) {
+  $todos.append(
+    `<li><span><i class="fa fa-trash">
+     </i></span> ${todo.todo}</li>`
+  );
+}
+
+
 //Check Off Specidic Todos by Clicking
 $('ul').on('click', 'li', function () {
   $(this).toggleClass('completed');
@@ -24,7 +35,20 @@ $("input[type='text']").keypress(function (event) {
     }
   }
 });
-
+//Plus menu
 $('.fa-plus').on('click', () => {
   $("input[type='text']").fadeToggle();
 });
+
+$.ajax({
+  type: "GET", //default (not required)
+  url: "/api/todos"
+})
+  .done(function(todos) {
+    $.each(todos, function(i, todo) {
+      addTodo(todo);
+    });
+  })
+  .fail(function(err) {
+    console.log(err);
+  });
