@@ -30,7 +30,14 @@ $("input[type='text']").keypress(function (event) {
   if (event.which === 13) {
     let todoText = htmlEntities($(this).val());
     if (todoText) {
-      $('ul').append(`<li><span><i class="fa fa-trash"></i></span> ${todoText}</li>`);
+      var todo = {todo: $todo.val()}
+      $.ajax({ type: "POST", url: "/api/todos", data: todo })
+        .done(function(newTodo) {
+          addTodo(newTodo);
+        })
+        .fail(function(err) {
+          console.error(err);
+        });
       $(this).val('');
     }
   }
@@ -52,3 +59,4 @@ $.ajax({
   .fail(function(err) {
     console.log(err);
   });
+
