@@ -44,7 +44,7 @@ app.post('/api/todos', function(req, res) {
 app.put('/api/todos/:_id', function(req, res) {
 	var id = req.params._id;
 	var todo = req.body;
-	Todo.updateTodo(id, genre, {}, function(err, todo) {
+	Todo.updateTodo(id, todo, {}, function(err, todo) {
 		if(err){
 			console.log(err);
 		}
@@ -54,7 +54,7 @@ app.put('/api/todos/:_id', function(req, res) {
 
 app.delete('/api/todos/:_id', function(req, res) {
 	var id = req.params._id;
-	Todo.removeTodo(id, (err, todo) => {
+	Todo.removeTodo(id, function (err, todo) {
 		if(err){
 			console.log(err);
 		}

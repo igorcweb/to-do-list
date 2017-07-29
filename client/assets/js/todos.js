@@ -2,24 +2,44 @@ var $todos = $("#todos"),
      $todo = $("#todo");
 
 function addTodo(todo) {
-  $todos.append(
-    `<li><span><i class="fa fa-trash">
-     </i></span> ${todo.todo}</li>`
-  );
+  $todos.append(`<li><span data-id="mongoId" class="delete">
+                 <i class="fa fa-trash" />
+      </span> ${todo.todo}</li>`);
 }
 
 
 //Check Off Specidic Todos by Clicking
-$('ul').on('click', 'li', function () {
+$('ul').on('click', 'li', function() {
   $(this).toggleClass('completed');
 });
 
 //Click on X to delete todo
-$('ul').on('click', 'span', function (event) {
+// $('ul').on('click', 'span', function (event) {
+//   event.stopPropagation();
+//   $(this).parent().fadeOut(500, function() {
+//     $(this).remove();
+//   });
+// });
+
+$todos.on('click', '.delete', function(event) {
   event.stopPropagation();
-  $(this).parent().fadeOut(500, () => {
+  $(this).parent().fadeOut(500, function() {
     $(this).remove();
   });
+  
+  $.ajax({
+    type: 'DELETE',
+    url: '/api/todos/' + $(this).attr('data-id')
+  })
+    .done(function() {
+      console.log($(this));
+      $li.fadeout(300, function() {
+        $(this).remove();
+      });
+    })
+    .fail(function(err) {
+      console.log(err);
+    });
 });
 //Add new todo
   //Sanitize Input
@@ -31,8 +51,10 @@ $("input[type='text']").keypress(function (event) {
     let todoText = htmlEntities($(this).val());
     if (todoText) {
       var todo = {todo: $todo.val()}
-      $.ajax({ type: "POST", url: "/api/todos", data: todo })
-        .done(function(newTodo) {
+      $.ajax({ type: "POST", 
+                url: "/api/todos", 
+                data: todo 
+        }).done(function(newTodo) {
           addTodo(newTodo);
         })
         .fail(function(err) {
