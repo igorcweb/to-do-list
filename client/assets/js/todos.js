@@ -2,7 +2,7 @@ var $todos = $("#todos"),
      $todo = $("#todo");
 
 function addTodo(todo) {
-  $todos.append(`<li><span data-id="mongoId" class="delete">
+  $todos.append(`<li><span data-id=${todo._id} class="delete">
                  <i class="fa fa-trash" />
       </span> ${todo.todo}</li>`);
 }
@@ -13,14 +13,7 @@ $('ul').on('click', 'li', function() {
   $(this).toggleClass('completed');
 });
 
-//Click on X to delete todo
-// $('ul').on('click', 'span', function (event) {
-//   event.stopPropagation();
-//   $(this).parent().fadeOut(500, function() {
-//     $(this).remove();
-//   });
-// });
-
+//Click on X to delete todo from database
 $todos.on('click', '.delete', function(event) {
   event.stopPropagation();
   $(this).parent().fadeOut(500, function() {
