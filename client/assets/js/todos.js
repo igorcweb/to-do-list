@@ -43,7 +43,7 @@ $("input[type='text']").keypress(function (event) {
   if (event.which === 13) {
     let todoText = htmlEntities($(this).val());
     if (todoText) {
-      var todo = {todo: $todo.val()}
+      var todo = {todo: todoText}
       $.ajax({ type: "POST", 
                 url: "/api/todos", 
                 data: todo 
